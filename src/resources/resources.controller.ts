@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, Request, Patch } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AddRatingDto } from './dto/adding-rating.dto';
 import { CreateResourceDto } from './dto/create-resource.dto';
@@ -27,7 +27,7 @@ export class ResourcesController {
     return this.resourceService.findOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateResourceDto: UpdateResourceDto,

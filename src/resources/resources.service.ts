@@ -12,7 +12,10 @@ export class ResourcesService {
     @InjectModel(Resource.name) private resourceModel: Model<ResourceDocument>,
   ) {}
 
-  async create(createResourceDto: CreateResourceDto, userId: string): Promise<Resource> {
+  async create(
+    createResourceDto: CreateResourceDto,
+    userId: string,
+  ): Promise<Resource> {
     const createdResource = new this.resourceModel({
       ...createResourceDto,
       creator: userId,
@@ -45,7 +48,11 @@ export class ResourcesService {
     return resource;
   }
 
-  async update(id: string, updateResourceDto: UpdateResourceDto, userId: string): Promise<Resource> {
+  async update(
+    id: string,
+    updateResourceDto: UpdateResourceDto,
+    userId: string,
+  ): Promise<Resource> {
     const resource = await this.resourceModel.findById(id);
 
     if (!resource) {
@@ -57,11 +64,15 @@ export class ResourcesService {
     }
 
     return this.resourceModel
-      .findByIdAndUpdate(id, updateResourceDto, { new: true })
+      .findByIdAndUpdate(id, { $set: updateResourceDto }, { new: true })
       .exec();
   }
 
-  async addRating(id: string, addRatingDto: AddRatingDto, userId: string): Promise<Resource> {
+  async addRating(
+    id: string,
+    addRatingDto: AddRatingDto,
+    userId: string,
+  ): Promise<Resource> {
     const resource = await this.resourceModel.findById(id);
 
     if (!resource) {
@@ -70,7 +81,7 @@ export class ResourcesService {
 
     // Remove existing rating by this user if it exists
     resource.ratings = resource.ratings.filter(
-      rating => rating.user.toString() !== userId
+      (rating) => rating.user.toString() !== userId,
     );
 
     // Add new rating
@@ -84,7 +95,11 @@ export class ResourcesService {
     return resource.save();
   }
 
-  async addCollaborator(id: string, collaboratorId: string, userId: string): Promise<Resource> {
+  async addCollaborator(
+    id: string,
+    collaboratorId: string,
+    userId: string,
+  ): Promise<Resource> {
     const resource = await this.resourceModel.findById(id);
 
     if (!resource) {
