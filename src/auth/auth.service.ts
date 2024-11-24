@@ -47,6 +47,7 @@ export class AuthService {
 
     const token = this.createToken(user);
     return {
+      user,
       token,
     };
   }
