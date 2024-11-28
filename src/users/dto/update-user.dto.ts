@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsString,
   MinLength,
+  IsOptional,
 } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
 import { UserRole } from '../entities/user.entity';
@@ -30,7 +31,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsEnum(UserRole)
   role?: UserRole;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsBoolean()
-  isVerified?: true | false;
+  @IsOptional()
+  isVerified?: boolean;
 }
